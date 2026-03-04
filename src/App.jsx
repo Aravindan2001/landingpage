@@ -4,10 +4,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Landing() {
 
-<ReCAPTCHA
-  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-  onChange={setCaptchaToken}
-/>
+
 
 
   const BRAND = "#E10600";
@@ -233,18 +230,84 @@ export default function Landing() {
     setForm({ name: "", phone: "", email: "", service: "", message: "" });
 
     setCaptchaToken("");
-
-    // reset widget UI
+// ✅ Reset Google reCAPTCHA v2 widget
+function resetCaptcha() {
+  try {
+    // Check if grecaptcha is loaded and the ref exists
     if (window.grecaptcha && captchaRef.current) {
-      try {
-        window.grecaptcha.reset();
-      } catch {}
+      window.grecaptcha.reset(); // Reset the widget
+      setCaptchaToken("");       // Clear token in state
     }
+  } catch (error) {
+    console.error("Failed to reset reCAPTCHA:", error);
   }
-
+}
+    // reset widget UI
+    resetCaptcha();
+  }
+<ReCAPTCHA
+  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+  onChange={setCaptchaToken}
+/>
   return (
+    
     <div ref={revealRootRef} className="min-h-screen bg-white text-neutral-900">
       <style>{`
+      /* Navbar hover effect */
+.nav-link-hover {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.nav-link-hover::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px; /* distance from text */
+  transform: translateX(-50%) scaleX(0);
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #E10600; /* professional red */
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-link-hover:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-link-hover:hover {
+  color: #E10600; /* optional: text turns red on hover */
+}
+      .btn-shadow-hover {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-shadow-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(225, 6, 0, 0.15); /* subtle professional red overlay */
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  transform: scale(1.1);
+}
+
+.btn-shadow-hover:hover::after {
+  opacity: 1;
+  transform: scale(1); /* creates “shimmer/pulse overlay” */
+}
+
+.btn-shadow-hover:hover {
+  transform: translateY(-2px); /* optional lift effect */
+  box-shadow: 0 12px 40px rgba(225, 6, 0, 0.25); /* professional red shadow */
+}
         .reveal{opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
         .reveal.is-visible{opacity:1;transform:translateY(0)}
         .reveal-delay-1{transition-delay:.12s}
@@ -316,23 +379,24 @@ export default function Landing() {
           </a>
 
           {/* ✅ Center: Navigation */}
-          <nav className="absolute left-[70%] -translate-x-1/2 hidden md:flex items-center gap-8">
-            {navLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm font-semibold text-neutral-700 hover:text-neutral-950 transition"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
+         <nav className="absolute left-[70%] -translate-x-1/2 hidden md:flex items-center gap-8">
+  {navLinks.map((l) => (
+    <a
+      key={l.href}
+      href={l.href}
+      className="nav-link-hover text-sm font-semibold text-neutral-700 transition"
+    >
+      {l.label}
+    </a>
+  ))}
+</nav>
 
           {/* Right: Buttons */}
           <div className="ml-auto flex items-center gap-2">
             <a
               href={`tel:${PHONE_DISPLAY.replace(/\s/g, "")}`}
               className="hidden sm:inline-flex rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
+              
             >
               Call
             </a>
@@ -389,13 +453,13 @@ export default function Landing() {
                 </p>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-extrabold text-white shadow-sm transition hover:scale-[1.02] active:scale-[0.99] focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
-                    style={{ backgroundColor: BRAND }}
-                  >
-                    Get Free Consultation
-                  </a>
+               <a
+  href="#contact"
+  className="btn-shadow-hover inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-extrabold text-white shadow-sm transition"
+  style={{ backgroundColor: BRAND }}
+>
+  Get Free Consultation
+</a>
                   <a
                     href="#services"
                     className="inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-extrabold transition border border-white/25 bg-white/10 text-white hover:bg-white/15 active:bg-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/30"
@@ -762,18 +826,14 @@ export default function Landing() {
                     )}
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={submitting || !captchaToken}
-                    className={[
-                      "contact-btn mt-1 inline-flex items-center justify-center rounded-2xl px-5 py-3",
-                      "text-sm font-extrabold text-white shadow-sm",
-                      "disabled:opacity-70 disabled:hover:transform-none",
-                    ].join(" ")}
-                    style={{ backgroundColor: BRAND }}
-                  >
-                    {submitting ? "Sending…" : !captchaToken ? "Verify reCAPTCHA to Send" : "Send Message"}
-                  </button>
+                <button
+  type="submit"
+  disabled={submitting || !captchaToken}
+  className="btn-shadow-hover contact-btn mt-1 inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-extrabold text-white shadow-sm disabled:opacity-70 disabled:hover:transform-none"
+  style={{ backgroundColor: BRAND }}
+>
+  {submitting ? "Sending…" : !captchaToken ? "Verify reCAPTCHA to Send" : "Send Message"}
+</button>
 
                   <p className="text-xs text-neutral-500">
                     By submitting, you agree to be contacted about your inquiry.
