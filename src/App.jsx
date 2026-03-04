@@ -1,8 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Monitor, Smartphone, Search, Server, Globe, ShoppingBag } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Landing() {
-  const RECAPTCHA_SITE_KEY = "6Le3Qn8sAAAAAECwKocr0nUMebwFJYGnO5ZUidSq"; // ✅ replace with your v2 Checkbox site key
+<ReCAPTCHA
+  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+  onChange={setCaptchaToken}
+/>
   const BRAND = "#E10600";
   const WHATSAPP_NUMBER = "94773263191";
   const PHONE_DISPLAY = "+94 77 326 3191";
@@ -744,12 +748,12 @@ export default function Landing() {
                   {/* ✅ reCAPTCHA (no style changes) */}
                   <div>
                     <div
-                      ref={captchaRef}
-                      className="g-recaptcha"
-                      data-sitekey={RECAPTCHA_SITE_KEY}
-                      data-callback="__onRecaptchaSuccess"
-                      data-expired-callback="__onRecaptchaExpired"
-                    />
+  ref={captchaRef}
+  className="g-recaptcha"
+  data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} // use Vite env
+  data-callback="__onRecaptchaSuccess"
+  data-expired-callback="__onRecaptchaExpired"
+/>
                     {errors.captcha && (
                       <div className="mt-2 text-xs font-semibold text-red-600">{errors.captcha}</div>
                     )}
