@@ -3,10 +3,14 @@ import { Monitor, Smartphone, Search, Server, Globe, ShoppingBag } from "lucide-
 import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Landing() {
+<<<<<<< HEAD
 <ReCAPTCHA
   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
   onChange={setCaptchaToken}
 />
+=======
+  const RECAPTCHA_SITE_KEY = "6Lc4RH8sAAAAAOoc9UzcSJKH0w8mxajaX_bwre_I"; // ✅ replace with your v2 Checkbox site key
+>>>>>>> ee7443c37ecf3dc4aebc9fdc1a1cb969afbd99b1
   const BRAND = "#E10600";
   const WHATSAPP_NUMBER = "94773263191";
   const PHONE_DISPLAY = "+94 77 326 3191";
