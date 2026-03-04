@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Monitor, Smartphone, Search, Server, Globe, ShoppingBag } from "lucide-react";
 
 export default function Landing() {
-  const RECAPTCHA_SITE_KEY = "6Le3Qn8sAAAAAECwKocr0nUMebwFJYGnO5ZUidSq"; // ✅ replace with your v2 Checkbox site key
+  const RECAPTCHA_SITE_KEY = "6Lc4RH8sAAAAAOoc9UzcSJKH0w8mxajaX_bwre_I"; // ✅ replace with your v2 Checkbox site key
   const BRAND = "#E10600";
   const WHATSAPP_NUMBER = "94773263191";
   const PHONE_DISPLAY = "+94 77 326 3191";
