@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* ---------- HERO slideshow ---------- */
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform: scale(1.03);
+  transition: opacity 900ms ease, transform 2500ms ease;
+  will-change: opacity, transform;
+}
+.hero-slide.is-active{
+  opacity:1;
+  transform: scale(1.0);
+}
+
+/* Dark overlay for readability */
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.55) 45%,
+    rgba(0,0,0,0.50) 100%
+  );
+}
+
+/* Subtle pattern/noise (lightweight) */
+.hero-noise{
+  position:absolute;
+  inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: .18;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Scroll reveal animations ---------- */
+.reveal{
+  opacity:0;
+  transform: translateY(14px);
+  transition: opacity 700ms ease, transform 700ms ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible{
+  opacity:1;
+  transform: translateY(0);
+}
+.reveal-delay-1{ transition-delay: 120ms; }
+.reveal-delay-2{ transition-delay: 240ms; }
+.reveal-delay-3{ transition-delay: 360ms; }
+
+/* ---------- WhatsApp pulse ---------- */
+@keyframes whatsappPulse {
+  0%   { transform: scale(0.9); opacity: 0.35; }
+  70%  { transform: scale(1.55); opacity: 0; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+.whatsapp-pulse{
+  background: rgba(37, 211, 102, 0.35);
+  animation: whatsappPulse 1.8s ease-out infinite;
+  filter: blur(0.5px);
+}
